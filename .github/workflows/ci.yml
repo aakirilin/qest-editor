@@ -9,29 +9,18 @@ jobs:
         - uses: actions/checkout@v2
 
         # Install .NET Core SDK
-        - name: Setup .NET Core
+        - name: Setup .NET 6
           uses: actions/setup-dotnet@v1
           with:
-            dotnet-version: 3.1.x
-
-        # Run tests
-        - name: Test
-          run: dotnet test
+            dotnet-version: '6.0.x'
+            include-prerelease: true
 
         # Generate the website
         - name: Publish
-          run: dotnet publish editor.csproj --configuration Release
+          run: dotnet publish editor.csproj --configuration Release --output release --nologo
 
-        # Publish the website
-        - name: GitHub Pages action
-          if: ${{ github.ref == 'refs/heads/master' }} # Publish only when the push is on master
-          uses: peaceiris/actions-gh-pages@v3.6.1
+        - name: Uploading files to gh-pages branch
+          uses: JamesIves/github-pages-deploy-action@4.1.4
           with:
-            github_token: ${{ secrets.PUBLISH_TOKEN }}
-            publish_branch: gh-pages
-            publish_dir: bin/Release/net5.0/publish/wwwroot
-            allow_empty_commit: false
-            keep_files: false
-            force_orphan: true
-            # TODO uncomment the following line if you have a custom domain name
-            # cname: demo.meziantou.net
+            branch: gh-pages
+            folder: release/wwwroot
