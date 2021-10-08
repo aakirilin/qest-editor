@@ -19,6 +19,10 @@ jobs:
         - name: Publish
           run: dotnet publish editor.csproj --configuration Release --output release --nologo
 
+        # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+        - name: Add .nojekyll file
+          run: touch release/wwwroot/.nojekyll
+
         - name: Uploading files to gh-pages branch
           uses: JamesIves/github-pages-deploy-action@4.1.4
           with:
