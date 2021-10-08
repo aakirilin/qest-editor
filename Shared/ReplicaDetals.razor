@@ -1,0 +1,62 @@
+﻿@inject EtitorCondition editor
+
+<h5>Реплика</h5>
+
+<div class="p-3">
+    <div>
+        <div class="w-200p">Текст</div>
+        <div>
+            <textarea class="w-100" @bind="@SelectReplica.Text" rows="2"></textarea>
+        </div>
+        <div>
+            @if (!SelectReplica.Starting)
+            {
+                <button @onclick="async () => await SetStarting.InvokeAsync(SelectReplica)" class="btn badge-light">
+                    <span class="oi oi-home"></span> Установить стартовой репликой
+                </button>
+            }
+            @if (!SelectReplica.Default)
+            {
+                <button @onclick="async () => await SetDefault.InvokeAsync(SelectReplica)" class="btn badge-light">
+                    <span class="oi oi-comment-square"></span> Установить репликой по умолчанию
+                </button>
+            }
+            <div class="d-flex flex-row justify-content-between">
+                <span>Условие отображения: </span>
+                <span>@SelectReplica.Condition?.Description()</span>
+                <button @onclick="OpenConditionEditor" class="btn">
+                    <span class="oi oi-pencil"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    @if(Condition != null) 
+    { 
+        <EtitorConditionMessage Condition="@Condition" 
+                                CloseConditionEditor="CloseConditionEditor" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public Replica SelectReplica { get; set; }
+
+    [Parameter]
+    public EventCallback<Replica> SetStarting { get; set; }
+
+    [Parameter]
+    public EventCallback<Replica> SetDefault { get; set; }
+
+
+    private ICondition Condition { get; set; }
+
+    private void CloseConditionEditor()
+    {
+        Condition = null;
+    }
+
+    private void OpenConditionEditor()
+    {
+        Condition = SelectReplica.Condition ?? (SelectReplica.Condition = new RootCondition());
+    }
+}

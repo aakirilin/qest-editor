@@ -1,0 +1,10 @@
+{
+    "razor.disableBlazorDebugPrompt": true,
+    "csharp.semanticHighlighting.enabled": true,
+    "csharp.suppressBuildAssetsNotification": true,
+    "csharp.suppressDotnetInstallWarning": true,
+    "csharp.suppressDotnetRestoreNotification": true,
+    "csharp.suppressProjectJsonWarning": true,
+    "omnisharp.enableAsyncCompletion": true,
+    "omnisharp.enableRoslynAnalyzers": true
+}

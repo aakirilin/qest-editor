@@ -1,0 +1,82 @@
+﻿
+
+<div>
+    <div class="row justify-content-between btn btn-light d-flex">
+        <button @onclick="OnDelte" class="btn badge-danger">
+            <span class="oi oi-minus"></span>
+        </button>
+        @if (CurrentReplica.Starting)
+        {
+            <span class="oi oi-home"></span>
+        }
+        @if (CurrentReplica.Default)
+        {
+            <span class="oi oi-comment-square"></span>
+        }
+        <button class="btn" @onclick="OnSelect">@CurrentReplica.Text</button>
+        <button class="btn" @onclick="() => show = !show">
+            @if (show)
+            {
+                <span class="oi oi-chevron-bottom"></span>
+            }
+            else
+            {
+                <span class="oi oi-chevron-right"></span>
+            }
+        </button>
+    </div>
+    @if (show)
+    {
+        <div class="d-flex flex-row justify-content-between w-100 mt-1 mb-2">
+            <h5>Ответы</h5>
+            <button @onclick="AddAnswer" class="btn badge-success">
+                <span class="oi oi-plus"></span>
+            </button>
+        </div>
+        <div class="ml-3">
+            <ul class="list-group list-group-flush ml-3">
+                @if (CurrentReplica.Answers != null)
+                {
+                    @foreach (var answer in CurrentReplica.Answers)
+                    {
+                        <li class="@RowClass(answer)">
+                            <div class="d-flex flex-row">
+                                <button @onclick="async() => await DeleteAnswer.InvokeAsync(answer)" class="btn badge-danger">
+                                    <span class="oi oi-minus"></span>
+                                </button>
+                                <button @onclick="async () => await SelectAnsver.InvokeAsync(answer)" class="btn badge-light">@answer.Text</button>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+
+
+@code {
+    [Parameter]
+    public EventCallback OnSelect { get; set; }
+
+    [Parameter]
+    public EventCallback OnDelte { get; set; }
+
+    private bool show { get; set; }
+
+    [Parameter]
+    public Replica CurrentReplica { get; set; }
+
+    [Parameter]
+    public Func<Answer, string> RowClass { get; set; }
+
+    [Parameter]
+    public EventCallback<Answer> SelectAnsver { get; set; }
+
+    [Parameter]
+    public EventCallback<Answer> DeleteAnswer { get; set; }
+
+    [Parameter]
+    public EventCallback AddAnswer { get; set; }
+}

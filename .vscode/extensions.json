@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "thekalinga.bootstrap4-vscode",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-dotnettools.blazorwasm-companion",
+        "ms-dotnettools.csharp"
+    ]
+}

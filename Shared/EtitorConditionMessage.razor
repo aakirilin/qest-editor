@@ -1,0 +1,65 @@
+﻿@inject QuestResourses resourses
+@using editor.Shared.Conditions
+
+<div class="modal fade show" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h5 class="modal-title">Редактор условия</h5>
+                <button @onclick="CloseConditionEditor" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="oi oi-x"></span>
+                </button>
+            </div>
+            <div class="modal-body d-flex flex-row grid-col-350-auto">
+                <ConditionTitle Condition="@Condition" OnSelectCondition="@SelectCondition"  />
+                <div class="w-100">
+                    @if(SelectedCondition != null)
+                    {
+                    <div class="d-flex flex-row justify-content-between w-100">
+                        <span>Вложенные условия</span>
+                        @if (Condition.ChaildCount != ConditionChaildCount.None)
+                        {
+                            <button @onclick="() => ShowSelectConditionDialog = true" class="btn">
+                                @switch (Condition.ChaildCount)
+                                {
+                                    case ConditionChaildCount.One: <span class="oi oi-pencil"></span>  break;
+                                    case ConditionChaildCount.Many: <span class="oi oi-plus"></span> break;
+                                }
+                            </button>
+                        }
+                    </div>
+                        <DialogStateConditionDetals CommonCondition="@SelectedCondition"  />
+                        <VariableStateConditionDetals CommonCondition="@SelectedCondition"  />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(ShowSelectConditionDialog){
+        <SelectConditionDialog OnApplay="SetCondition" 
+                               CloseDialog="() => ShowSelectConditionDialog = false" />
+    }
+</div>
+
+@code {
+
+    private bool ShowSelectConditionDialog {get; set;}
+
+    private void SelectCondition(ICondition condition){
+        SelectedCondition = condition;
+    }
+
+    private ICondition SelectedCondition { get; set; }
+
+    private void SetCondition(ICondition condition){
+        if(SelectedCondition != null){
+            SelectedCondition.AddLinkCondition(condition);
+        }
+    }
+
+    [Parameter]
+    public ICondition Condition { get; set; }
+
+    [Parameter]
+    public EventCallback CloseConditionEditor { get; set; }
+}

@@ -1,0 +1,21 @@
+﻿@using editor.Models;
+
+<select class="form-select" value="@Hepler.Value" @onchange="OnSelectionChange">
+    @foreach (var option in Hepler.Options())
+    {
+        <option value="@option.Value">@option.DiaplayName</option>
+    }
+</select>
+
+@code {
+    [Parameter]
+    public ISelectHelper Hepler { get; set; }
+
+    [Parameter]
+    public EventCallback OnSelectOption { get; set; }
+
+    private async void OnSelectionChange(Microsoft.AspNetCore.Components.ChangeEventArgs e){
+        Hepler.Value = e.Value.ToString();
+        await OnSelectOption.InvokeAsync();
+    }
+}

@@ -1,0 +1,73 @@
+﻿@page "/variables"
+@inject QuestResourses resourses
+@using editor.Models 
+
+<h3>Переменные</h3>
+
+@if (resourses.Variables == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>string значение</th>
+                <th>int значение</th>
+                <th>float значение</th>
+                <th>bool значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var variable in resourses.Variables)
+            {
+                <tr>
+                    <td><button @onclick="() => DeleteVariable(variable)" class="btn badge-danger">Удалить</button></td>
+                    <td>@variable.Name</td>
+                    <td>@System.Enum.GetName(typeof(VariableTypes), variable.Type)</td>
+                    <td>@variable.SValue</td>
+                    <td>@variable.IValue.ToString()</td>
+                    <td>@variable.FValue.ToString()</td>
+                    <td>@variable.BValue.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td><input @bind-value="newVariable.Name" /></td>
+                <td><EnumSelect Hepler="@Helper" /></td>
+                <td><button @onclick="AddVariable" class="btn badge-primary">Добавить</button></td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private Variable newVariable = new Variable();
+
+    private EnumHelper Helper => new EnumHelper(typeof(VariableTypes), (newValue) =>
+    {
+        newVariable.Type = (VariableTypes)Enum.Parse(typeof(VariableTypes), newValue);
+    }, () =>
+    {
+        return Enum.GetName(newVariable.Type);
+    });
+
+    private void AddVariable()
+    {
+        resourses.Variables.Add(newVariable);
+        newVariable = new Variable();
+    }
+
+    private void DeleteVariable(Variable variable)
+    {
+        resourses.Variables.Remove(variable);
+    }
+}

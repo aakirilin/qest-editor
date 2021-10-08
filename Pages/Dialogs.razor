@@ -1,0 +1,206 @@
+﻿@page "/dialogs"
+@inject QuestResourses resourses
+
+
+
+
+@if (resourses.Dialogs == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+
+    <div class="grid-col-350-auto mt-2">
+        <div class="mr-3">
+            <div class="d-flex flex-row justify-content-between w-100 mb-3">
+                <h4>Диалоги</h4>
+                <button @onclick="AddDialog" class="btn badge-success">
+                    <span class="oi oi-plus"></span>
+                </button>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var dialog in resourses.Dialogs)
+                {
+                    <li class="@rowClass(dialog)">
+                        <div class="d-flex flex-row">
+                            <button @onclick="() => DeleteDialog(dialog)" class="btn badge-danger">
+                                <span class="oi oi-minus"></span>
+                            </button>
+                            <button @onclick="() => Select(dialog)" class="btn badge-light">@dialog.Title</button>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div>
+            @if (selectDialodg != null)
+            {
+                <div class="grid-col-350-auto">
+                    <div class="mr-3">
+                        <div class="d-flex flex-row justify-content-between w-100 mb-3">
+                            <h4>Реплики</h4>
+                            <button @onclick="() => AddReplica(selectDialodg)" class="btn badge-success">
+                                <span class="oi oi-plus"></span>
+                            </button>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @if (selectDialodg.Replics != null)
+                            {
+                                foreach (var replica in selectDialodg.Replics)
+                                {
+                                    <li class="@rowClass(replica)">
+                                        <ReplicaTitle CurrentReplica="@replica" 
+                                                      OnSelect="() => Select(replica)"
+                                                      OnDelte="() => DeleteReplica(replica)" 
+                                                      RowClass="(a) => rowClass(a)" 
+                                                      SelectAnsver="(answer) => { selectReplica = replica; selectAnswer = answer; }"
+                                                      DeleteAnswer="(answer) => DeleteAnswer(replica, answer)"
+                                                      AddAnswer="() => AddAnswer(replica)"/>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        </div>
+                        <div>
+                            <ol class="breadcrumb">
+                                @foreach (var item in SelectPath())
+                                {
+                                    <li class="breadcrumb-item">@item</li>
+                                }
+                            </ol>
+                            @if (selectDialodg != null && selectReplica == null && selectAnswer == null)
+                            {
+                                <DialogDetals SelectDialog="selectDialodg" />
+                            }
+                            @if (selectReplica != null && selectAnswer == null)
+                            {
+                                <ReplicaDetals SelectReplica="selectReplica"
+                                               SetStarting="SetStarting"
+                                               SetDefault="SetDefault" />
+                            }
+                            @if (selectAnswer != null)
+                            {
+                                <AnswerDetals SelectAnswer="selectAnswer" />
+                            }
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+
+    private Dialog selectDialodg;
+    private Replica selectReplica;
+    private Answer selectAnswer;
+
+    private IEnumerable<string> SelectPath()
+    {
+        if (selectDialodg != null) yield return selectDialodg.Title.LimitLength(30);
+        if (selectReplica != null) yield return selectReplica.Text.LimitLength(30);
+        if (selectAnswer != null) yield return selectAnswer.Text.LimitLength(30);
+    }
+
+    private void Select(Dialog dialog)
+    {
+        selectDialodg = dialog;
+        selectReplica = null;
+        selectAnswer = null;
+    }
+
+    private void Select(Replica replica)
+    {
+        selectReplica = replica;
+        selectAnswer = null;
+    }
+
+    private void Select(Answer answer)
+    {
+        selectReplica = null;
+        selectAnswer = answer;
+    }
+
+    private string rowClass(Dialog dialog)
+    {
+        return "list-group-item" + (selectDialodg == dialog && selectReplica == null && selectAnswer == null ? " active" : "");
+    }
+
+    private void AddDialog()
+    {
+        resourses.Dialogs.Add(new Dialog { Title = "Новый диалог", Replics = new List<Replica>() });
+    }
+
+    private void DeleteDialog(Dialog dialog)
+    {
+        if (dialog == selectDialodg) selectDialodg = null;
+        resourses.Dialogs.Remove(dialog);
+    }
+
+
+    private string rowClass(Replica replica)
+    {
+        return "list-group-item" + (selectReplica == replica && selectAnswer == null ? " active" : "");
+    }
+
+    private void AddReplica(Dialog dialog)
+    {
+        if (dialog.Replics == null) dialog.Replics = new List<Replica>();
+        dialog.Replics.Add(new Replica { Text = "Новая реплика", Answers = new List<Answer>() });
+    }
+
+    private void SetStarting(Replica replica)
+    {
+        if (selectDialodg == null || selectDialodg.Replics == null)
+        {
+            Console.WriteLine("нет активного диалога");
+        }
+        else
+        {
+            selectDialodg.Replics.ForEach(r => r.Starting = false);
+            replica.Starting = true;
+        }
+    }
+
+    private void SetDefault(Replica replica)
+    {
+        if (selectDialodg == null || selectDialodg.Replics == null)
+        {
+            Console.WriteLine("нет активного диалога");
+        }
+        else
+        {
+            selectDialodg.Replics.ForEach(r => r.Default = false);
+            replica.Default = true;
+        }
+    }
+
+    private void DeleteReplica(Replica replica)
+    {
+        if (selectDialodg == null) return;
+        if (replica == selectReplica) selectReplica = null;
+        selectDialodg.Replics.Remove(replica);
+    }
+
+    private string rowClass(Answer answer)
+    {
+        return "list-group-item" + (selectAnswer == answer ? " active" : "");
+    }
+
+    private void AddAnswer(Replica replica)
+    {
+        if (replica.Answers == null) replica.Answers = new List<Answer>();
+        var newAnswer = new Answer()
+        {
+            Text = "Ответ"
+        };
+        replica.Answers.Add(newAnswer);
+    }
+
+    private void DeleteAnswer(Replica replica, Answer answer)
+    {
+        if (answer == selectAnswer) selectAnswer = null;
+        replica.Answers.Remove(answer);
+    }
+}

@@ -1,0 +1,40 @@
+
+
+<div class="modal fade show" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Выберите условие</h5>
+                <button @onclick="async () => await CloseDialog.InvokeAsync()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="oi oi-x"></span>
+                </button>
+            </div>
+            <div class="modal-body d-flex flex-column">
+                @foreach (var condition in Conditions())
+                {
+                    <button class="btn" @onclick="async () => {await OnApplay.InvokeAsync(condition);  await CloseDialog.InvokeAsync(); }">@condition.Name</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public IEnumerable<ICondition> Conditions()
+    {
+        yield return new AndCondition();    
+        yield return new OrCondition();    
+        yield return new DialogStateCondition();    
+        yield return new VariableCondition();    
+    }
+
+    [Parameter]
+    public ICondition SelectCondition {get; set;}
+
+    [Parameter]
+    public EventCallback<ICondition> OnApplay { get; set; }
+
+    [Parameter]
+    public EventCallback CloseDialog { get; set; }
+}

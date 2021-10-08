@@ -1,0 +1,34 @@
+﻿<button class="navbar-toggler" @onclick="ToggleNavMenu">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="navbar-nav flex-row">
+        <li >
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                Главная
+            </NavLink>
+        </li>
+        <li >
+            <NavLink class="nav-link" href="variables">
+                Переменные
+            </NavLink>
+        </li>
+        <li >
+            <NavLink class="nav-link" href="dialogs">
+                Диалоги
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

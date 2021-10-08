@@ -1,0 +1,31 @@
+﻿@using editor.Models
+
+<h5>Диалог</h5>
+
+<div class="p-3">
+    <div>
+        <div>Название</div>
+        <input class="w-100" @bind-value="@SelectDialog.Title" />
+    </div>
+    <div>
+        <div>Тип</div>
+        <EnumSelect Hepler="@Helper" />
+    </div>
+    <div>
+        <div>Текст</div>
+        <textarea class="w-100" @bind="@SelectDialog.Text" rows="2" />
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public Dialog SelectDialog { get; set; }
+
+    private EnumHelper Helper => new EnumHelper(typeof(DialogTypes), (newValue) => {
+        SelectDialog.Type = (DialogTypes)Enum.Parse(typeof(DialogTypes), newValue);
+    }, () =>
+    {
+        return Enum.GetName(SelectDialog.Type);
+    });
+}

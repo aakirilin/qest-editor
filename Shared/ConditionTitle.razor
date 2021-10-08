@@ -1,0 +1,26 @@
+
+
+<div class="list-element">
+    <button class="btn" @onclick="async () => await OnSelectCondition.InvokeAsync(Condition)" >@Condition.Name</button>
+    @if(Condition.LinkConditions() != null){
+        <div class="ml-2">
+            @foreach (var linked in Condition.LinkConditions())
+            {
+                if(linked != null)
+                {
+                    <ConditionTitle Condition="linked" OnSelectCondition="OnSelectCondition"  />
+                }
+            }
+        </div>
+    }
+</div>
+
+
+@code{
+
+    [Parameter]
+    public ICondition Condition {get; set;}
+
+    [Parameter]
+    public EventCallback<ICondition> OnSelectCondition { get; set; }
+}
