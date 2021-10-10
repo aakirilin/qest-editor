@@ -21,6 +21,10 @@ jobs:
         - name: Publish
           run: dotnet publish editor.csproj --configuration Release --output release --nologo
 
+        # Прописываем бузовый путь        
+        - name: Change base-tag in index.html from / to qest-editor
+          run: sed -i 's/<base href="\/" \/>/<base href="\/qest-editor\/" \/>/g' release/wwwroot/index.html
+
           # отключаем jekyll
         - name: Add .nojekyll file
           run: touch release/wwwroot/.nojekyll
