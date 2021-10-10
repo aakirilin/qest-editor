@@ -1,1 +1,64 @@
 ﻿@page "/"
+@inject QuestResourses resourses
+@inject IJSRuntime JSRuntime
+@inject HttpClient Http
+
+<div class="d-flex flex-column col-4">
+    <button class="btn btn-primary p-1 m-2" @onclick=@New>
+        <span class="oi oi-file"></span>
+        Новый квест
+    </button>
+    <button class="btn btn-primary p-1 m-2" @onclick=@LoadExample>
+        <span class="oi oi-external-link"></span>
+        Загрузить пример
+    </button>
+     <button class="btn btn-primary p-1 m-2" @onclick=@OpenFile>
+        <span class="oi oi-folder"></span>
+        Открыть файл на компьютере
+    </button>
+    <button class="btn btn-primary p-1 m-2" @onclick=@SaveOnPC>
+        <span class="oi oi-cloud-download"></span>
+        Сохранить на компьютер
+    </button>
+    <button class="btn btn-primary p-1 m-2" style="display: none;">
+        <span class="oi oi-cloud-upload"></span>
+        Сохранить на сервер
+    </button>
+</div>
+
+
+@code
+{
+    private void New()
+    {
+        resourses.Initialize();
+    }
+    private async void LoadExample()
+    {
+        try
+        {
+            var loadedData = await Http.GetFromJsonAsync<QuestResourses>("./sample-data/example_quest_data.json");
+            resourses.CopyFrom(loadedData);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private void OpenFile()
+    {
+
+    }
+
+    private async void SaveOnPC()
+    {
+        var fileName = "quest_data.json";
+        var fileContent = resourses.Serialize();
+        await JSRuntime.InvokeAsync<object>(
+            "FileSaveAs",
+            fileName,
+            fileContent
+        );
+    }
+}

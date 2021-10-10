@@ -1,4 +1,6 @@
-﻿namespace editor.Models
+﻿using editor.Models.Conditions;
+
+namespace editor.Models
 {
     public interface IObjectWithCondition
     {

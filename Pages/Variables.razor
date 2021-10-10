@@ -16,34 +16,29 @@ else
                 <th></th>
                 <th>Название</th>
                 <th>Тип</th>
-                <th>string значение</th>
-                <th>int значение</th>
-                <th>float значение</th>
-                <th>bool значение</th>
+                <th>Единица измерения</th>
+                <th>Описание</th>
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td></td>
+                <td><input @bind=@newVariable.Name /></td>
+                <td><EnumSelect Hepler="@Helper" /></td>
+                <td><input @bind=@newVariable.Unit /></td>
+                <td> <textarea class="w-100" @bind=@newVariable.Description rows="2"></textarea></td>
+                <td><button @onclick=AddVariable class="btn badge-primary">Добавить</button></td>
+            </tr>
             @foreach (var variable in resourses.Variables)
             {
                 <tr>
                     <td><button @onclick="() => DeleteVariable(variable)" class="btn badge-danger">Удалить</button></td>
                     <td>@variable.Name</td>
                     <td>@System.Enum.GetName(typeof(VariableTypes), variable.Type)</td>
-                    <td>@variable.SValue</td>
-                    <td>@variable.IValue.ToString()</td>
-                    <td>@variable.FValue.ToString()</td>
-                    <td>@variable.BValue.ToString()</td>
+                    <td>@variable.Unit</td>
+                    <td>@variable.Description</td>
                 </tr>
             }
-        </tbody>
-    </table>
-    <table class="table">
-        <tbody>
-            <tr>
-                <td><input @bind-value="newVariable.Name" /></td>
-                <td><EnumSelect Hepler="@Helper" /></td>
-                <td><button @onclick="AddVariable" class="btn badge-primary">Добавить</button></td>
-            </tr>
         </tbody>
     </table>
 }

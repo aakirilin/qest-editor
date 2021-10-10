@@ -11,6 +11,10 @@
         <div>Тип</div>
         <EnumSelect Hepler="@Helper" />
     </div>
+    <div class="d-flex flex-row">
+        <span>Изображение</span>
+        <ImageComponent Sourse=@SelectDialog />
+    </div>
     <div>
         <div>Текст</div>
         <textarea class="w-100" @bind="@SelectDialog.Text" rows="2" />

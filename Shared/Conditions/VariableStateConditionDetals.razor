@@ -1,4 +1,5 @@
 @inject QuestResourses resourses
+@using editor.Shared
 
 
 @if(Condition != null){
@@ -13,25 +14,27 @@
             <tbody>
                 <tr>
                     <td><span>Integer</span></td>
-                    <td><input type="number" @bind-value="@Condition.ReferenceValue.IValue" /></td>
+                    <td><input type="number" @bind=@Condition.ReferenceValue.IValue /></td>
                     <td><span>Оператор</span></td>
                     <td><EnumSelect Hepler="@IHelper" /></td>
                 </tr>
                 <tr>
                     <td><span>Float</span></td>
-                    <td><input type="number" @bind-value="@Condition.ReferenceValue.FValue" /></td>
+                    <td><input type="number" @bind=@Condition.ReferenceValue.FValue /></td>
                     <td><span>Оператор</span></td>
                     <td><EnumSelect Hepler="@FHelper" /></td>
                 </tr>
                 <tr>
                     <td><span>Boolean</span></td>
-                    <td><input type="checkbox" @bind-value="@Condition.ReferenceValue.BValue" /></td>
+                    <td>
+                        <input type="checkbox" @bind="@Condition.ReferenceValue.BValue"/>
+                    </td>
                     <td><span>Оператор</span></td>
                     <td><EnumSelect Hepler="@BHelper" /></td>
                 </tr>
                 <tr>
                     <td><span>String</span></td>
-                    <td><input type="text" @bind-value="@Condition.ReferenceValue.SValue" /></td>
+                    <td><input type="text" @bind=@Condition.ReferenceValue.SValue /></td>
                     <td><span>Оператор</span></td>
                     <td><EnumSelect Hepler="@SHelper" /></td>
                 </tr>

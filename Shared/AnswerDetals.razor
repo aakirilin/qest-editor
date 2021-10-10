@@ -20,6 +20,28 @@
         <EtitorConditionMessage Condition="@Condition"
                                 CloseConditionEditor="CloseConditionEditor" />
     }
+    <div class="d-flex flex-row justify-content-between w-100 mb-3">
+        <h5>Действия</h5>
+        <button @onclick="() => showSelectActionDialog = true" class="btn badge-success">
+            <span class="oi oi-plus"></span>
+        </button>
+    </div>
+    <ul class="list-group list-group-flush">
+        @foreach (var action in SelectAnswer.Actions)
+        {
+            <ActionTitle Action=@action
+                         OnRemove="() => RemoveAction(action)"
+                         OnEdit="() => editinAction=action" />
+        }
+    </ul>
+    @if(showSelectActionDialog){
+        <SelectActionDialog OnApplay=AddAction
+                            CloseDialog="() => showSelectActionDialog = false" />
+    }
+    @if(editinAction != null){
+        <EtitorActionDialog Action=@editinAction
+                            CloseConditionEditor="() => editinAction=null" />
+    }
 </div>
 
 
@@ -38,4 +60,18 @@
     {
         Condition = SelectAnswer.Condition ?? (SelectAnswer.Condition = new RootCondition());
     }
+
+
+    private bool showSelectActionDialog{ get; set; }
+    private void AddAction(IAction action)
+    {
+        SelectAnswer.Actions.Add(action);
+    }
+
+    private void RemoveAction(IAction action)
+    {
+        SelectAnswer.Actions.Remove(action);
+    }
+
+    private IAction editinAction {get; set;}
 }

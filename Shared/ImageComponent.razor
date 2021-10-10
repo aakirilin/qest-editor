@@ -1,0 +1,47 @@
+@inject QuestResourses resourses
+
+<div class="d-flex flex-row">
+    @if(CurrentImage != null){
+        <span>@CurrentImage.Name</span>
+        <button class="btn btn-dark m-1" @onclick="() => showLargeImage = true">
+            <span class="oi oi-eye"></span>
+        </button>
+    }
+    <button class="btn btn-dark m-1" @onclick="() => showSelectImageDialog = true">
+        <span class="oi oi-pencil"></span>
+    </button>
+    <button @onclick="() => CurrentImage = null" class="btn badge-danger m-1">
+        <span class="oi oi-minus"></span>
+    </button>
+    @if(showSelectImageDialog)
+    {
+        <SelectImageDialog CloseDialog="() => showSelectImageDialog = false"
+                           OnApplay="(i) => CurrentImage=i"  /> 
+    }
+    @if(showLargeImage)
+    {
+        <ShowLargeImageDialog Image=@CurrentImage
+                              CloseDialog="() => showLargeImage=false" />
+    }
+</div>
+
+@code
+{
+    [Parameter]
+    public IWithImage Sourse { get; set; }
+
+    private bool showSelectImageDialog { get; set; }
+
+    private Image currentImage;
+    private Image CurrentImage
+    {
+        get => currentImage ?? (currentImage = resourses.Images.FirstOrDefault(i => i.Id == Sourse.ImageId));
+        set
+        {
+            currentImage = value;
+            Sourse.ImageId = value?.Id ?? new Guid();
+        }
+    }
+
+    private bool showLargeImage {get; set;}
+}

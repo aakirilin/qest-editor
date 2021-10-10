@@ -1,9 +1,22 @@
-﻿<button class="navbar-toggler" @onclick="ToggleNavMenu">
+﻿@inject QuestResoursesTrecker trecker
+@implements IDisposable
+
+
+<button class="navbar-toggler" @onclick="ToggleNavMenu">
     <span class="navbar-toggler-icon"></span>
 </button>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="navbar-nav flex-row">
+        @if(hasChanged)
+        {
+            <li>
+                <div class="alert alert-warning" >
+                    <span class="oi oi-warning"></span>
+                </div>
+            </li>
+        }
+
         <li >
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 Главная
@@ -19,6 +32,11 @@
                 Диалоги
             </NavLink>
         </li>
+        <li >
+            <NavLink class="nav-link" href="images">
+                Изображения
+            </NavLink>
+        </li>
     </ul>
 </div>
 
@@ -31,4 +49,25 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    private bool hasChanged {get; set;}
+
+    private void OnChanged(bool value)
+    {
+        Console.WriteLine(value);
+        hasChanged = value;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        trecker.OnChenged += OnChanged;
+    }
+
+    public void Dispose()
+    {
+        trecker.OnChenged -= OnChanged;
+    }
 }
+    

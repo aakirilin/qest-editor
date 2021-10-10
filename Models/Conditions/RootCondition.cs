@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace editor.Models
+namespace editor.Models.Conditions
 {
     public class RootCondition : ICondition
     {

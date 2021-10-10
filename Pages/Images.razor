@@ -1,0 +1,70 @@
+@page "/images"
+@inject QuestResourses resourses
+@using editor.Models 
+
+<h3>Переменные</h3>
+
+@if (resourses.Images == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Название</th>
+                <th>Превью</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><button @onclick=AddImage class="btn badge-primary">Добавить</button></td>
+                <td class="d-flex flex-column">
+                    <input @bind=@newImage.Name />
+                    <InputFile OnChange=SingleUpload />
+                </td>
+                <td>
+                    <img class="image-preview" src=@newImagePreview /> 
+                </td>
+            </tr>
+
+            @foreach (var image in resourses.Images)
+            {
+                <tr>
+                    <td><button @onclick="() => DeleteImage(image)" class="btn badge-danger">Удалить</button></td>
+                    <td>@image.Name</td>
+                    <td><img class="image-preview" src=@image.DaraUrl /> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private string newImagePreview {get; set;}
+
+    private Image newImage = new Image();
+
+    private async Task SingleUpload(InputFileChangeEventArgs e)   
+    {       
+        //e.Value
+        MemoryStream ms = new MemoryStream();       
+        await e.File.OpenReadStream().CopyToAsync(ms);       
+        newImage.Raw = ms.ToArray();
+        newImagePreview = newImage.DaraUrl;
+    }
+
+    private void AddImage()
+    {
+        resourses.Images.Add(newImage);
+        newImage = new Image();
+    }
+
+    private void DeleteImage(Image image)
+    {
+        resourses.Images.Remove(image);
+    }
+}

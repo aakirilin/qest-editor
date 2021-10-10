@@ -1,0 +1,23 @@
+
+<input type="checkbox" class="form-check-input" @bind-value=@value />
+
+@code{
+    
+
+    [Parameter]
+    public object Sourse { get; set; }
+
+    [Parameter]
+    public string PropertyName { get; set; }
+
+    private PropertyInfo Property
+    {
+        get => Sourse.GetType().GetProperty("PropertyName");
+    }
+
+    private bool value
+    {
+        get => (bool)Property.GetValue(Sourse);
+        set => Property.SetValue(Sourse, value);
+    }
+}

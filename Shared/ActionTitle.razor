@@ -1,0 +1,24 @@
+
+
+<li class="flex-row d-flex align-baseline list-group-item">
+    <button @onclick="async () => await OnRemove.InvokeAsync()" class="btn badge-danger">
+        <span class="oi oi-minus"></span>
+    </button>
+<span class="w-100 align-baseline">@Action.Name</span>
+    <button @onclick=OnEdit class="btn">
+        <span class="oi oi-pencil"></span>
+    </button>
+</li>
+
+
+@code{
+
+    [Parameter]
+    public IAction Action {get; set;}
+
+    [Parameter]
+    public EventCallback OnRemove { get; set; }
+
+    [Parameter]
+    public EventCallback OnEdit { get; set; }
+}

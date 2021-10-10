@@ -1,11 +1,31 @@
 ﻿@using editor.Models;
 
-<select class="form-select" value="@Hepler.Value" @onchange="OnSelectionChange">
+<!--select class="form-select" value="@Hepler.Value" @onchange="OnSelectionChange">
     @foreach (var option in Hepler.Options())
     {
         <option value="@option.Value">@option.DiaplayName</option>
     }
-</select>
+</select-->
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" @onclick="() => showOptions = !showOptions">
+        @FiltredOptions.FirstOrDefault(o => o.Value == Hepler.Value).DiaplayName.LimitLength(50)
+    </button>
+
+    @if(showOptions)
+    {
+        <ul class="dropdown-menu show" style="max-height: 200px;overflow-y: scroll;" aria-labelledby="dropdownMenuButton1">
+            <li class="top-lable">
+                <input class="w-100" @bind-value="@RegexFilter"/>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            @foreach (var option in FiltredOptions)
+            {
+                <li><button @onclick="() => {OnSelect(option.Value); showOptions=false;}" class="dropdown-item" >@option.DiaplayName.LimitLength(50)</button></li>
+            }
+        </ul>
+    }
+</div>
 
 @code {
     [Parameter]
@@ -14,8 +34,38 @@
     [Parameter]
     public EventCallback OnSelectOption { get; set; }
 
+    private bool showOptions {get; set;}
+
+    private async void OnSelect(string value){
+        Hepler.Value = value;
+        await OnSelectOption.InvokeAsync();
+    }
+
+    private string regexFilter;
+    private string RegexFilter
+    {
+        get => regexFilter;
+        set 
+        {
+            regexFilter = value;
+            if(String.IsNullOrWhiteSpace(value)) FiltredOptions = Hepler.Options();
+            else 
+            {
+                FiltredOptions = Hepler.Options().Where(o => Regex.IsMatch(o.DiaplayName.ToLower(), value.ToLower()));
+            }
+        }
+    }
+
     private async void OnSelectionChange(Microsoft.AspNetCore.Components.ChangeEventArgs e){
         Hepler.Value = e.Value.ToString();
         await OnSelectOption.InvokeAsync();
+    }
+
+    private IEnumerable<SelectorOption> filtredOptions;
+
+    private IEnumerable<SelectorOption> FiltredOptions
+    {
+        get => filtredOptions ?? Hepler.Options();   
+        set => filtredOptions = value;
     }
 }

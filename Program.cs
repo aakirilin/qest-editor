@@ -21,8 +21,7 @@ namespace editor
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddSingleton<EtitorCondition>();
             builder.Services.AddSingleton<QuestResourses>();
-            builder.Services.AddSingleton<VariablesCollection>();
-            builder.Services.AddSingleton<LanguageCollection>();
+            builder.Services.AddSingleton<QuestResoursesTrecker>();
 
             await builder.Build().RunAsync();
         }

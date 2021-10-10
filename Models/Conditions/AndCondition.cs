@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace editor.Models
+namespace editor.Models.Conditions
 {
     public class AndCondition : ICondition
     {

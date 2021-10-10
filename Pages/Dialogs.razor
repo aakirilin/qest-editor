@@ -12,8 +12,8 @@ else
 {
 
     <div class="grid-col-350-auto mt-2">
-        <div class="mr-3">
-            <div class="d-flex flex-row justify-content-between w-100 mb-3">
+        <div class="mr-3 vh-90">
+            <div class="d-flex flex-row justify-content-between w-100 mb-3 top-lable">
                 <h4>Диалоги</h4>
                 <button @onclick="AddDialog" class="btn badge-success">
                     <span class="oi oi-plus"></span>
@@ -27,7 +27,7 @@ else
                             <button @onclick="() => DeleteDialog(dialog)" class="btn badge-danger">
                                 <span class="oi oi-minus"></span>
                             </button>
-                            <button @onclick="() => Select(dialog)" class="btn badge-light">@dialog.Title</button>
+                            <button @onclick="() => Select(dialog)" class="btn badge-light w-100">@dialog.Title.LimitLength(30)</button>
                         </div>
                     </li>
                 }
@@ -37,8 +37,8 @@ else
             @if (selectDialodg != null)
             {
                 <div class="grid-col-350-auto">
-                    <div class="mr-3">
-                        <div class="d-flex flex-row justify-content-between w-100 mb-3">
+                    <div class="mr-3 vh-90">
+                        <div class="d-flex flex-row justify-content-between w-100 mb-3 top-lable">
                             <h4>Реплики</h4>
                             <button @onclick="() => AddReplica(selectDialodg)" class="btn badge-success">
                                 <span class="oi oi-plus"></span>
@@ -56,13 +56,15 @@ else
                                                       RowClass="(a) => rowClass(a)" 
                                                       SelectAnsver="(answer) => { selectReplica = replica; selectAnswer = answer; }"
                                                       DeleteAnswer="(answer) => DeleteAnswer(replica, answer)"
-                                                      AddAnswer="() => AddAnswer(replica)"/>
+                                                      AddAnswer="() => AddAnswer(replica)"
+                                                      IsStartingReplica="selectDialodg.StartingReplicaId==replica.Id"
+                                                      IsDefaultReplica="selectDialodg.DefaultReplicaId==replica.Id" />
                                     </li>
                                 }
                             }
                         </ul>
                         </div>
-                        <div>
+                        <div class="vh-90">
                             <ol class="breadcrumb">
                                 @foreach (var item in SelectPath())
                                 {
@@ -77,7 +79,9 @@ else
                             {
                                 <ReplicaDetals SelectReplica="selectReplica"
                                                SetStarting="SetStarting"
-                                               SetDefault="SetDefault" />
+                                               SetDefault="SetDefault"
+                                               IsStartingReplica="selectDialodg.StartingReplicaId==selectReplica.Id"
+                                               IsDefaultReplica="selectDialodg.DefaultReplicaId==selectReplica.Id" />
                             }
                             @if (selectAnswer != null)
                             {
@@ -158,8 +162,7 @@ else
         }
         else
         {
-            selectDialodg.Replics.ForEach(r => r.Starting = false);
-            replica.Starting = true;
+            selectDialodg.StartingReplicaId = replica.Id;
         }
     }
 
@@ -171,8 +174,7 @@ else
         }
         else
         {
-            selectDialodg.Replics.ForEach(r => r.Default = false);
-            replica.Default = true;
+            selectDialodg.DefaultReplicaId = replica.Id;
         }
     }
 

@@ -1,19 +1,19 @@
 ﻿
 
 <div>
-    <div class="row justify-content-between btn btn-light d-flex">
+    <div class="flex-row justify-content-between btn btn-light d-flex">
         <button @onclick="OnDelte" class="btn badge-danger">
             <span class="oi oi-minus"></span>
         </button>
-        @if (CurrentReplica.Starting)
+        @if (IsStartingReplica)
         {
             <span class="oi oi-home"></span>
         }
-        @if (CurrentReplica.Default)
+        @if (IsDefaultReplica)
         {
             <span class="oi oi-comment-square"></span>
         }
-        <button class="btn" @onclick="OnSelect">@CurrentReplica.Text</button>
+        <button class="btn w-100" @onclick="OnSelect">@CurrentReplica.Text.LimitLength(30)</button>
         <button class="btn" @onclick="() => show = !show">
             @if (show)
             {
@@ -44,7 +44,7 @@
                                 <button @onclick="async() => await DeleteAnswer.InvokeAsync(answer)" class="btn badge-danger">
                                     <span class="oi oi-minus"></span>
                                 </button>
-                                <button @onclick="async () => await SelectAnsver.InvokeAsync(answer)" class="btn badge-light">@answer.Text</button>
+                                <button @onclick="async () => await SelectAnsver.InvokeAsync(answer)" class="btn badge-light w-100">@answer.Text.LimitLength(30)</button>
                             </div>
                         </li>
                     }
@@ -79,4 +79,10 @@
 
     [Parameter]
     public EventCallback AddAnswer { get; set; }
+
+    [Parameter]
+    public bool IsStartingReplica { get; set; }
+    
+    [Parameter]
+    public bool IsDefaultReplica { get; set; }
 }
