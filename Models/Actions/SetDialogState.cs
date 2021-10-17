@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using editor.Models.Conditions;
 
 namespace editor.Models.Actions
@@ -8,6 +9,8 @@ namespace editor.Models.Actions
     {
         public Guid DialogId {get; set;}
         public Guid SelectReplicaId {get; set;}
+
+        [JsonIgnore]
         public string Name => "Изменение состояния диалога";
 
         public string Description()

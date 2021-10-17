@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace editor.Models.Conditions
 {
     public class OrCondition : ICondition
     {
-
+        [JsonIgnore]
         public ConditionChaildCount ChaildCount => ConditionChaildCount.Many;
         public string Description()
         {
             var linkDescs = linkConditions?.Select(c => c.Description());
             return $"{{ {String.Join(" or", linkDescs)} }}";
         } 
+        [JsonIgnore]
         public string Name => "Or условие";
-        private List<ICondition> linkConditions { get; set; }
+        public List<ICondition> linkConditions { get; set; }
 
         public IEnumerable<ICondition> LinkConditions()
         {

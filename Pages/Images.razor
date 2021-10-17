@@ -50,7 +50,6 @@ else
 
     private async Task SingleUpload(InputFileChangeEventArgs e)   
     {       
-        //e.Value
         MemoryStream ms = new MemoryStream();       
         await e.File.OpenReadStream().CopyToAsync(ms);       
         newImage.Raw = ms.ToArray();

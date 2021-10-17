@@ -1,0 +1,93 @@
+
+<div class="d-flex flex-row w-100" @onmousemove=@resize @onmouseup=@stopResize>
+    <div style="@leftPanelStyle">
+        @LeftPanelContent
+    </div>
+    <div class="d-flex flex-column">
+        <button class="btn" @onclick=@ShowHidenLeftPanel>
+        @if(LeftPanelWidth > 0){
+            <span class="oi oi-chevron-left"></span>
+        }
+        else{
+            <span class="oi oi-chevron-right"></span>
+        }
+        </button>
+        @if(LeftPanelWidth > 0){
+            <button class="btn h-100 h-delimiter" @onmousedown=@startResize >
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+            </button>
+        }
+    </div>
+    <div style="@rightPanelStyle">
+        @RightPanelContent
+    </div>
+</div>
+
+
+@code
+{
+    private int leftPanelWidth;
+    private int leftPanelWidthCurrent;
+    private int LeftPanelWidth
+    {
+        get => leftPanelWidthCurrent;
+        set
+        {
+            if(value > 0) leftPanelWidth = value;
+            leftPanelWidthCurrent = value;
+            leftPanelStyle = CreateStyle($"{value}px");
+        }
+    } 
+    private string leftPanelStyle {get; set;}
+    private string rightPanelStyle {get; set;}
+
+    private string CreateStyle(string width)
+    {   
+        return $"display: block; width:{width};";
+    }
+
+    private void ShowHidenLeftPanel(){
+        if(LeftPanelWidth > 0) LeftPanelWidth = 0;
+        else LeftPanelWidth =  leftPanelWidth;
+    }
+
+    [Parameter]
+    public RenderFragment LeftPanelContent { get; set; }
+
+    [Parameter]
+    public RenderFragment RightPanelContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        rightPanelStyle = CreateStyle("100%");
+        LeftPanelWidth = 300;
+    }
+
+    private bool resizeMode {get; set;}
+
+    private double startPosition {get; set;}
+    private void startResize(MouseEventArgs e)
+    {
+        resizeMode = true;
+        startPosition = e.ScreenX;
+    }
+
+    private void stopResize(){
+        resizeMode = false;
+    }
+
+    private void resize(MouseEventArgs e){
+        if(resizeMode){
+            var offset = startPosition - e.ScreenX;
+            startPosition = e.ScreenX;
+            var newWidth = LeftPanelWidth - offset;
+            if(newWidth > 10){
+                LeftPanelWidth = (int)newWidth;
+            }
+        }
+    }
+}    

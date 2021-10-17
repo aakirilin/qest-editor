@@ -127,3 +127,23 @@ a, .btn-link {
     height: 100%;
     object-fit: contain;
 }
+
+.horizontal-divider{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.h-delimiter{
+    background: #ececec;
+    width: max-content;
+}
+
+.circle{
+    border-radius: 50px;
+    width: 5px;
+    height: 5px;
+    background: #c6c2c2;
+    margin: 2px 0;
+    display: block;
+}

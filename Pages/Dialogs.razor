@@ -10,88 +10,95 @@
 }
 else
 {
-
-    <div class="grid-col-350-auto mt-2">
-        <div class="mr-3 vh-90">
-            <div class="d-flex flex-row justify-content-between w-100 mb-3 top-lable">
-                <h4>Диалоги</h4>
-                <button @onclick="AddDialog" class="btn badge-success">
-                    <span class="oi oi-plus"></span>
-                </button>
+    <HorizontalDivider>
+        <LeftPanelContent>
+            <div class="mr-3 vh-90">
+                <div class="d-flex flex-row justify-content-between w-100 mb-3 top-lable">
+                    <h4>Диалоги</h4>
+                    <button @onclick="AddDialog" class="btn badge-success">
+                        <span class="oi oi-plus"></span>
+                    </button>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var dialog in resourses.Dialogs)
+                    {
+                        <li class="@rowClass(dialog)">
+                            <div class="d-flex flex-row">
+                                <button @onclick="() => DeleteDialog(dialog)" class="btn badge-danger">
+                                    <span class="oi oi-minus"></span>
+                                </button>
+                                <button @onclick="() => Select(dialog)" class="btn badge-light w-100">@dialog.Title.LimitLength(30)</button>
+                            </div>
+                        </li>
+                    }
+                </ul>
             </div>
-            <ul class="list-group list-group-flush">
-                @foreach (var dialog in resourses.Dialogs)
+        </LeftPanelContent>
+        <RightPanelContent>
+            <div>
+                @if (selectDialodg != null)
                 {
-                    <li class="@rowClass(dialog)">
-                        <div class="d-flex flex-row">
-                            <button @onclick="() => DeleteDialog(dialog)" class="btn badge-danger">
-                                <span class="oi oi-minus"></span>
-                            </button>
-                            <button @onclick="() => Select(dialog)" class="btn badge-light w-100">@dialog.Title.LimitLength(30)</button>
-                        </div>
-                    </li>
+                    <HorizontalDivider>
+                        <LeftPanelContent>
+                            <div class="mr-3 vh-90">
+                                <div class="d-flex flex-row justify-content-between w-100 mb-3 top-lable">
+                                    <h4>Реплики</h4>
+                                    <button @onclick="() => AddReplica(selectDialodg)" class="btn badge-success">
+                                        <span class="oi oi-plus"></span>
+                                    </button>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    @if (selectDialodg.Replics != null)
+                                    {
+                                        foreach (var replica in selectDialodg.Replics)
+                                        {
+                                            <li class="@rowClass(replica)">
+                                                <ReplicaTitle CurrentReplica="@replica" 
+                                                            OnSelect="() => Select(replica)"
+                                                            OnDelte="() => DeleteReplica(replica)" 
+                                                            RowClass="(a) => rowClass(a)" 
+                                                            SelectAnsver="(answer) => { selectReplica = replica; selectAnswer = answer; }"
+                                                            DeleteAnswer="(answer) => DeleteAnswer(replica, answer)"
+                                                            AddAnswer="() => AddAnswer(replica)"
+                                                            IsStartingReplica="selectDialodg.StartingReplicaId==replica.Id"
+                                                            IsDefaultReplica="selectDialodg.DefaultReplicaId==replica.Id" />
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </LeftPanelContent>
+                        <RightPanelContent>
+                            <div class="vh-90">
+                                <ol class="breadcrumb">
+                                    @foreach (var item in SelectPath())
+                                    {
+                                        <li class="breadcrumb-item">@item</li>
+                                    }
+                                </ol>
+                                @if (selectDialodg != null && selectReplica == null && selectAnswer == null)
+                                {
+                                    <DialogDetals SelectDialog="selectDialodg" />
+                                }
+                                @if (selectReplica != null && selectAnswer == null)
+                                {
+                                    <ReplicaDetals SelectReplica="selectReplica"
+                                                SetStarting="SetStarting"
+                                                SetDefault="SetDefault"
+                                                IsStartingReplica="selectDialodg.StartingReplicaId==selectReplica.Id"
+                                                IsDefaultReplica="selectDialodg.DefaultReplicaId==selectReplica.Id" />
+                                }
+                                @if (selectAnswer != null)
+                                {
+                                    <AnswerDetals SelectAnswer="selectAnswer" />
+                                }
+                            </div>
+                        </RightPanelContent>
+                    </HorizontalDivider>    
                 }
-            </ul>
-        </div>
-        <div>
-            @if (selectDialodg != null)
-            {
-                <div class="grid-col-350-auto">
-                    <div class="mr-3 vh-90">
-                        <div class="d-flex flex-row justify-content-between w-100 mb-3 top-lable">
-                            <h4>Реплики</h4>
-                            <button @onclick="() => AddReplica(selectDialodg)" class="btn badge-success">
-                                <span class="oi oi-plus"></span>
-                            </button>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            @if (selectDialodg.Replics != null)
-                            {
-                                foreach (var replica in selectDialodg.Replics)
-                                {
-                                    <li class="@rowClass(replica)">
-                                        <ReplicaTitle CurrentReplica="@replica" 
-                                                      OnSelect="() => Select(replica)"
-                                                      OnDelte="() => DeleteReplica(replica)" 
-                                                      RowClass="(a) => rowClass(a)" 
-                                                      SelectAnsver="(answer) => { selectReplica = replica; selectAnswer = answer; }"
-                                                      DeleteAnswer="(answer) => DeleteAnswer(replica, answer)"
-                                                      AddAnswer="() => AddAnswer(replica)"
-                                                      IsStartingReplica="selectDialodg.StartingReplicaId==replica.Id"
-                                                      IsDefaultReplica="selectDialodg.DefaultReplicaId==replica.Id" />
-                                    </li>
-                                }
-                            }
-                        </ul>
-                        </div>
-                        <div class="vh-90">
-                            <ol class="breadcrumb">
-                                @foreach (var item in SelectPath())
-                                {
-                                    <li class="breadcrumb-item">@item</li>
-                                }
-                            </ol>
-                            @if (selectDialodg != null && selectReplica == null && selectAnswer == null)
-                            {
-                                <DialogDetals SelectDialog="selectDialodg" />
-                            }
-                            @if (selectReplica != null && selectAnswer == null)
-                            {
-                                <ReplicaDetals SelectReplica="selectReplica"
-                                               SetStarting="SetStarting"
-                                               SetDefault="SetDefault"
-                                               IsStartingReplica="selectDialodg.StartingReplicaId==selectReplica.Id"
-                                               IsDefaultReplica="selectDialodg.DefaultReplicaId==selectReplica.Id" />
-                            }
-                            @if (selectAnswer != null)
-                            {
-                                <AnswerDetals SelectAnswer="selectAnswer" />
-                            }
-                        </div>
-                    </div>
-            }
-        </div>
-    </div>
+            </div>
+        </RightPanelContent>
+    </HorizontalDivider>
 }
 
 @code {

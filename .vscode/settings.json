@@ -6,5 +6,8 @@
     "csharp.suppressDotnetRestoreNotification": true,
     "csharp.suppressProjectJsonWarning": true,
     "omnisharp.enableAsyncCompletion": true,
-    "omnisharp.enableRoslynAnalyzers": true
+    "omnisharp.enableRoslynAnalyzers": true,
+    "debug.inlineValues": true,
+    "debug.showBreakpointsInOverviewRuler": true,
+    "debug.internalConsoleOptions": "openOnSessionStart"
 }

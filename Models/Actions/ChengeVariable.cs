@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace editor.Models.Actions
 {
@@ -20,6 +21,8 @@ namespace editor.Models.Actions
         public IChengeVariableAction FloatAction {get;}
         public IChengeVariableAction BooleanAction {get;}
         public IChengeVariableAction StringAction {get;}
+
+        [JsonIgnore]
         public string Name => "Изменение переменной";
 
         public string Description()

@@ -14,6 +14,7 @@
     </button>
      <button class="btn btn-primary p-1 m-2" @onclick=@OpenFile>
         <span class="oi oi-folder"></span>
+        <InputFile OnChange="@LoadFiles" multiple />
         Открыть файл на компьютере
     </button>
     <button class="btn btn-primary p-1 m-2" @onclick=@SaveOnPC>
@@ -35,14 +36,18 @@
     }
     private async void LoadExample()
     {
-        try
+        var loadedData = await Http.GetFromJsonAsync<QuestResourses>("./sample-data/example_quest_data.json", QuestResourses.JsonSerializerOptions);
+        resourses.CopyFrom(loadedData);
+    }
+
+
+    private async void LoadFiles(InputFileChangeEventArgs e)
+    {
+        using(var stream = new StreamReader(e.File.OpenReadStream()))
         {
-            var loadedData = await Http.GetFromJsonAsync<QuestResourses>("./sample-data/example_quest_data.json");
-            resourses.CopyFrom(loadedData);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
+            var json = await stream.ReadToEndAsync();
+            var resoursesLoaded = QuestResourses.FromFile(json);
+            resourses.CopyFrom(resoursesLoaded);
         }
     }
 

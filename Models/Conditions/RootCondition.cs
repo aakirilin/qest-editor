@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace editor.Models.Conditions
 {
@@ -7,7 +8,7 @@ namespace editor.Models.Conditions
         public RootCondition()
         {
         }
-
+        [JsonIgnore]
         public ConditionChaildCount ChaildCount => ConditionChaildCount.One;
         public IEnumerable<ICondition> LinkConditions()
         {
@@ -26,6 +27,7 @@ namespace editor.Models.Conditions
         {
             return "Возвращает значение вложенного условия или false";
         } 
+        [JsonIgnore]
         public string Name => "Корневое условие";
         public bool Result(QuestResourses resourses)
         {

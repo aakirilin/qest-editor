@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace editor.Models.Conditions
 {
     public class DialogStateCondition : ICondition, IDialogState
     {
+        [JsonIgnore]
         public ConditionChaildCount ChaildCount => ConditionChaildCount.None;
         public IEnumerable<ICondition> LinkConditions()
         {
@@ -22,6 +24,8 @@ namespace editor.Models.Conditions
         {
             return $"Проверяет что диалог в указанном состоянии";
         } 
+
+        [JsonIgnore]
         public string Name => "Состояние диалога";
         public Guid DialogId { get; set; }
         public Guid SelectReplicaId { get; set; }

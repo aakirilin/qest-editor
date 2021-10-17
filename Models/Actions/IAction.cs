@@ -10,19 +10,4 @@ namespace editor.Models.Actions
         string Description();
         void Execute(QuestResourses resourses);
     }
-
-    public class CloseDialog : IAction
-    {
-        public string Name => "Закрыть диалог";
-
-        public string Description()
-        {
-            return Name;
-        }
-
-        public void Execute(QuestResourses resourses)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
 }
