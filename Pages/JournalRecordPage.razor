@@ -1,0 +1,50 @@
+@page "/journalRecord"
+@inject QuestResourses resourses
+@using editor.Models 
+
+<h3>Журнал</h3>
+
+@if (resourses.JournalRecords == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Название</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><button @onclick=AddJournalRecord class="btn badge-primary">Добавить</button></td>
+                <td><input @bind=@newJournalRecord.Name /></td>
+            </tr>
+            @foreach (var journalRecord in resourses.JournalRecords)
+            {
+                <tr>
+                    <td><button @onclick="() => DeleteJournalRecord(journalRecord)" class="btn badge-danger">Удалить</button></td>
+                    <td>@journalRecord.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private JournalRecord newJournalRecord = new JournalRecord();
+
+    private void AddJournalRecord()
+    {
+        resourses.JournalRecords.Add(newJournalRecord);
+        newJournalRecord = new JournalRecord();
+    }
+
+    private void DeleteJournalRecord(JournalRecord journalRecord)
+    {
+        resourses.JournalRecords.Remove(journalRecord);
+    }
+}

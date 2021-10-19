@@ -12,7 +12,7 @@ namespace editor.Models.Actions
             return Name;
         }
 
-        public void Execute(QuestResourses resourses)
+        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
         {
             throw new System.NotImplementedException();
         }

@@ -22,12 +22,11 @@ else
         </thead>
         <tbody>
             <tr>
-                <td></td>
+                <td><button @onclick=AddVariable class="btn badge-primary">Добавить</button></td>
                 <td><input @bind=@newVariable.Name /></td>
                 <td><EnumSelect Hepler="@Helper" /></td>
                 <td><input @bind=@newVariable.Unit /></td>
                 <td> <textarea class="w-100" @bind=@newVariable.Description rows="2"></textarea></td>
-                <td><button @onclick=AddVariable class="btn badge-primary">Добавить</button></td>
             </tr>
             @foreach (var variable in resourses.Variables)
             {

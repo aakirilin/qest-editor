@@ -1,0 +1,25 @@
+@page "/runtestgame"
+@inject QuestResourses resourses
+
+<div class="d-flex vh-90">
+    @if(started){
+
+    }
+    else{
+        <div class="alert alert-success m-auto" role="alert">
+            <h4 class="alert-heading">Запуск тестирования</h4>
+            <hr>
+            <button class="btn btn-success" @onclick=@StartGame>Запустить</button>
+        </div>
+    }
+</div>
+
+
+@code
+{
+    private bool started {get; set;}
+
+    private void StartGame(object sender){
+        started = true;
+    }
+}

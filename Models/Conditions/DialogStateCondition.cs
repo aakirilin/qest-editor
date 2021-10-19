@@ -34,7 +34,7 @@ namespace editor.Models.Conditions
         {
             var dialog = resourses.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
             if (dialog == null) return false;
-            return dialog.CurrentReplicaId == SelectReplicaId;
+            return false;
         }
     }
 }

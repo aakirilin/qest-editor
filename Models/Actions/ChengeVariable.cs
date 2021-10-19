@@ -30,7 +30,7 @@ namespace editor.Models.Actions
             return Name;
         }
 
-        public void Execute(QuestResourses resourses)
+        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
         {
             var variable = resourses.Variables.FirstOrDefault(v => v.Id == VariableId);
             if(variable != null){

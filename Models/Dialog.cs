@@ -11,9 +11,6 @@ namespace editor.Models
         public string Text { get; set; }
         public List<Replica> Replics { get; set; }
         public Guid ImageId { get; set; }
-
-
-        public Guid CurrentReplicaId { get; set; }
         public Guid StartingReplicaId { get; set; }
         public Guid DefaultReplicaId { get; set; }
 

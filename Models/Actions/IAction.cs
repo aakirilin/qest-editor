@@ -8,6 +8,6 @@ namespace editor.Models.Actions
     {
         string Name {get;}
         string Description();
-        void Execute(QuestResourses resourses);
+        void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer);
     }
 }

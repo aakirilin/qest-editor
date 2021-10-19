@@ -18,15 +18,30 @@ namespace editor.Models.Actions
             return Name;
         }
 
-        public void Execute(QuestResourses resourses)
+        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
         {
             var dialog = resourses?.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
             if(dialog != null)
             {
-                dialog.CurrentReplicaId = SelectReplicaId;
+                
             }
         }
     }
 
-    
+    public class AddJournalRecord : IAction
+    {
+        public Guid JournalRecordId {get; set;}
+        [JsonIgnore]
+        public string Name => "Добавить запись в журнал";
+
+        public string Description()
+        {
+            return Name;
+        }
+
+        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
+        {
+            throw new Exception();
+        }
+    }
 }

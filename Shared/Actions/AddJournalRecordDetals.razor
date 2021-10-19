@@ -1,0 +1,25 @@
+@inject QuestResourses resourses
+
+@if(Action != null){
+    <div>
+        <p>@Action.Description()</p>
+        <p>
+            <span>Запись в журнале</span>
+            <EnumSelect Hepler="@AddJournalRecordHelper" />
+        </p>
+    </div>
+}
+
+@code{
+
+    private ISelectHelper addJournalRecordHelper;
+    private ISelectHelper AddJournalRecordHelper => addJournalRecordHelper ?? (
+        addJournalRecordHelper =  new AddJournalRecordHelper( resourses.JournalRecords, Action)
+    );
+
+    private AddJournalRecord Action => CommonAction as AddJournalRecord;
+
+    [Parameter]
+    public IAction CommonAction { get; set; }
+
+}
