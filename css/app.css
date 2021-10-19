@@ -135,8 +135,11 @@ a, .btn-link {
 }
 
 .h-delimiter{
-    background: #ececec;
+    background: #ececec7d;
     width: max-content;
+    padding: 1px;
+    margin: auto;
+    cursor: col-resize;
 }
 
 .circle{
