@@ -42,24 +42,26 @@ namespace editor.Models.Conditions
 
         public Guid VariableId { get; set; }
         public Variable ReferenceValue { get; set; }
-        [JsonIgnore]
-        public VariableStringComparer StringComparer { get; }
-        [JsonIgnore]
-        public VariableIngerComparer IngerComparer { get; }
-        [JsonIgnore]
-        public VariableFloatComparer FloatComparer { get; }
-        [JsonIgnore]
-        public VariableBooleanComparer BooleanComparer { get; }
 
-        public bool Result(QuestResourses resourses)
+        public VariableStringComparer StringComparer { get; set; }
+
+        public VariableIngerComparer IngerComparer { get; set; }
+
+        public VariableFloatComparer FloatComparer { get; set; }
+
+        public VariableBooleanComparer BooleanComparer { get; set; }
+
+        public bool Result(QuestGame game)
         {
-            var variable = resourses.Variables.FirstOrDefault(v => v.Id == VariableId);
+            var variable = game.GetVariable(VariableId);
             if (variable == null) return false;
 
-            return StringComparer.Comparete(variable, ReferenceValue) && 
-                   IngerComparer.Comparete(variable, ReferenceValue) &&
-                   FloatComparer.Comparete(variable, ReferenceValue) &&
-                   BooleanComparer.Comparete(variable, ReferenceValue);
+            var stringComparerResult = StringComparer.Comparete(variable, ReferenceValue);
+            var ingerComparerResult = IngerComparer.Comparete(variable, ReferenceValue);
+            var floatComparerResult = FloatComparer.Comparete(variable, ReferenceValue);
+            var booleanComparerResult = BooleanComparer.Comparete(variable, ReferenceValue);
+
+            return stringComparerResult && ingerComparerResult && floatComparerResult && booleanComparerResult;
         }
     }
 }

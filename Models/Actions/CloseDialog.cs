@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace editor.Models.Actions
 {
+
     public class CloseDialog : IAction
     {
         [JsonIgnore]
@@ -12,9 +13,9 @@ namespace editor.Models.Actions
             return Name;
         }
 
-        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
+        public void Execute(QuestGame game)
         {
-            throw new System.NotImplementedException();
+            game.CloseDialog();
         }
     }
 }

@@ -29,9 +29,9 @@ namespace editor.Models.Conditions
         } 
         [JsonIgnore]
         public string Name => "Корневое условие";
-        public bool Result(QuestResourses resourses)
+        public bool Result(QuestGame game)
         {
-            return Condition?.Result(resourses) ?? false;
+            return Condition?.Result(game) ?? true;
         }
     }
 }

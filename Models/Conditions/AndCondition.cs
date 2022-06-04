@@ -36,9 +36,9 @@ namespace editor.Models.Conditions
                 linkConditions.Remove(condition);
         }
 
-        public bool Result(QuestResourses resourses)
+        public bool Result(QuestGame game)
         {
-            return linkConditions.All(c => c.Result(resourses) == true);
+            return linkConditions.All(c => c.Result(game) == true);
         }
     }
 }

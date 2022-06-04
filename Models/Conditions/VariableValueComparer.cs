@@ -1,9 +1,11 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace editor.Models.Conditions
 {
     public abstract class VariableValueComparer<T> : IVariableValueComparer
     {
+        [JsonIgnore]
         public abstract ComparisonsOperators[] UseOperators { get; }
         protected abstract bool Equally(T current, T referense);
         protected abstract bool NotEqual(T current, T referense);

@@ -10,7 +10,12 @@ namespace editor.Models.Actions
         };
 
         public void Execute(Variable variable, Variable referenceValue){
-
+            switch (Operation)
+            {
+                case ChengeVariableOperations.Set:
+                    variable.BValue = referenceValue.BValue;
+                    break;
+            }
         }
     }
 }

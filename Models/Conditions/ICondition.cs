@@ -10,7 +10,7 @@ namespace editor.Models.Conditions
         [JsonIgnore]
         string Name {get;}
         string Description();
-        bool Result(QuestResourses resourses);
+        bool Result(QuestGame game);
 
         IEnumerable<ICondition> LinkConditions();
         void AddLinkCondition(ICondition condition);

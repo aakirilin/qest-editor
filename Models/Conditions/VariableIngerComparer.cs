@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace editor.Models.Conditions
 {
-    public class VariableIngerComparer : VariableValueComparer<float>
+    public class VariableIngerComparer : VariableValueComparer<int>
     {
+        [JsonIgnore]
         public override ComparisonsOperators[] UseOperators => new ComparisonsOperators[]{
             ComparisonsOperators.Equally,
             ComparisonsOperators.Greater,
@@ -13,37 +16,37 @@ namespace editor.Models.Conditions
             ComparisonsOperators.AlwaysFalse
         };
 
-        protected override bool Equally(float current, float referense)
+        protected override bool Equally(int current, int referense)
         {
             return current == referense;
         }
 
-        protected override bool Greater(float current, float referense)
+        protected override bool Greater(int current, int referense)
         {
             return current > referense;
         }
 
-        protected override bool GreaterOrEqually(float current, float referense)
+        protected override bool GreaterOrEqually(int current, int referense)
         {
             return current >= referense;
         }
 
-        protected override bool Less(float current, float referense)
+        protected override bool Less(int current, int referense)
         {
             return current < referense;
         }
 
-        protected override bool LessOrEqually(float current, float referense)
+        protected override bool LessOrEqually(int current, int referense)
         {
             return current <= referense;
         }
 
-        protected override bool NotEqual(float current, float referense)
+        protected override bool NotEqual(int current, int referense)
         {
             return current != referense;
         }
 
-        protected override float Selector(Variable variable)
+        protected override int Selector(Variable variable)
         {
             return variable.IValue;
         }

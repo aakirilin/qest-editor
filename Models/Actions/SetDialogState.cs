@@ -18,12 +18,35 @@ namespace editor.Models.Actions
             return Name;
         }
 
-        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
+        public void Execute(QuestGame game)
         {
-            var dialog = resourses?.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
+            var dialog = game?.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
             if(dialog != null)
             {
-                
+                game.SetDialogState(dialog, SelectReplicaId);
+            }
+        }
+    }
+
+    public class NextReplica : IAction, IDialogState
+    {
+        public Guid DialogId { get; set; }
+        public Guid SelectReplicaId { get; set; }
+
+        [JsonIgnore]
+        public string Name => "Переключить реплику без сохранения";
+
+        public string Description()
+        {
+            return Name;
+        }
+
+        public void Execute(QuestGame game)
+        {
+            var dialog = game?.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
+            if (dialog != null)
+            {
+                game.NextReplica(dialog, SelectReplicaId);
             }
         }
     }
@@ -39,7 +62,7 @@ namespace editor.Models.Actions
             return Name;
         }
 
-        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
+        public void Execute(QuestGame game)
         {
             throw new Exception();
         }

@@ -14,6 +14,12 @@ namespace editor.Models
 
         public List<IAction> Actions{get; set;}
 
+        public void OnClick(QuestGame game)
+        {
+            foreach (var action in Actions)
+                action.Execute(game);
+        }
+
         public Answer()
         {
             Id = Guid.NewGuid();

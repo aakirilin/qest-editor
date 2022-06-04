@@ -1,0 +1,42 @@
+﻿@inject QuestResourses resourses
+
+@if(Action != null){
+    <div>
+        <p>@Action.Description()</p>
+        <p>
+            <span>Диалог</span>
+            <EnumSelect Hepler="@DialogSelectHelper" OnSelectOption="OnSelectDialog" />
+        </p>
+        @if(ReplicaSelectHelper != null){
+            <p>
+                <span>Реплика</span>
+                <EnumSelect Hepler="@ReplicaSelectHelper" />
+            </p>
+        }
+    </div>
+}
+
+@code{
+
+    private ISelectHelper dialogSelectHelper;
+    private ISelectHelper DialogSelectHelper => dialogSelectHelper ?? (
+        dialogSelectHelper =  new DialogHelper( resourses.Dialogs, Action)
+    );
+
+    private ISelectHelper replicaSelectHelper;
+    private ISelectHelper ReplicaSelectHelper{
+        get => replicaSelectHelper ?? (replicaSelectHelper = new ReplicaHelper((DialogHelper)DialogSelectHelper, Action ));
+        set =>replicaSelectHelper = value;
+    }
+
+    private NextReplica Action => CommonAction as NextReplica;
+
+    [Parameter]
+    public IAction CommonAction { get; set; }
+
+    private void OnSelectDialog(){
+        ReplicaSelectHelper = new ReplicaHelper( (DialogHelper)DialogSelectHelper, Action );
+        Console.WriteLine("OnSelectDialog");
+    }
+
+}

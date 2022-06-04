@@ -18,7 +18,7 @@ namespace editor.Models.EnumHelpers
 
         public string Value
         {
-            get => Enum.GetName(action.Operation);
+            get => Enum.GetName(action?.Operation ?? 0);
             set 
             {
                 action.Operation = Enum.Parse<ChengeVariableOperations>(value);
@@ -27,10 +27,10 @@ namespace editor.Models.EnumHelpers
 
         public IEnumerable<SelectorOption> Options()
         {
-            var selcted = action.AvailableOperations.Select(o => o.ToString()).ToArray();
+            var selcted = action?.AvailableOperations?.Select(o => o.ToString())?.ToArray();
             var enumType = typeof(ChengeVariableOperations);
             var names = Enum.GetNames(enumType);
-            var members = enumType.GetMembers().Where(m => selcted.Contains(m.Name));
+            var members = enumType.GetMembers().Where(m => selcted?.Contains(m.Name) ?? true);
 
 
             foreach (MemberInfo member in members)

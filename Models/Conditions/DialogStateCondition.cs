@@ -30,9 +30,9 @@ namespace editor.Models.Conditions
         public Guid DialogId { get; set; }
         public Guid SelectReplicaId { get; set; }
 
-        public bool Result(QuestResourses resourses)
+        public bool Result(QuestGame game)
         {
-            var dialog = resourses.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
+            var dialog = game.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
             if (dialog == null) return false;
             return false;
         }

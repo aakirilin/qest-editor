@@ -1,9 +1,11 @@
+using System.Text.Json.Serialization;
 using System;
 
 namespace editor.Models.Conditions
 {
     public class VariableStringComparer : VariableValueComparer<string>
     {
+        [JsonIgnore]
         public override ComparisonsOperators[] UseOperators => new ComparisonsOperators[]{
             ComparisonsOperators.Equally,
             ComparisonsOperators.NotEqual,

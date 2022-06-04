@@ -5,8 +5,10 @@ namespace editor.Models
     public enum DialogTypes 
     {
         [Display(Name = "Персонаж")]
-        character,
+        character = 0,
         [Display(Name = "Локация")]
-        location
+        location = 1,
+        [Display(Name = "Начальный")]
+        start = 2,
     }
 }

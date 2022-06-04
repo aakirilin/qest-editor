@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace editor.Models.Conditions
 {
     public class VariableFloatComparer : VariableValueComparer<float>
     {
+        [JsonIgnore]
         public override ComparisonsOperators[] UseOperators => new ComparisonsOperators[]{
             ComparisonsOperators.Equally,
             ComparisonsOperators.Greater,

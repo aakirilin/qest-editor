@@ -16,9 +16,9 @@
         <span class="oi oi-folder"></span>
         <InputFile OnChange="@LoadFiles" multiple />
     </button>
-    <button class="btn btn-primary p-1 m-2" @onclick=@SaveOnPC>
+    <button class="btn btn-primary p-1 m-2" @onclick=@SaveOnPCJson>
         <span class="oi oi-cloud-download"></span>
-        Сохранить на компьютер
+        Сохранить на компьютер JSON
     </button>
     <button class="btn btn-primary p-1 m-2" style="display: none;">
         <span class="oi oi-cloud-upload"></span>
@@ -58,10 +58,21 @@
 
     }
 
-    private async void SaveOnPC()
+    private async void SaveOnPCJson()
     {
         var fileName = "quest_data.json";
         var fileContent = resourses.Serialize();
+        await JSRuntime.InvokeAsync<object>(
+            "FileSaveAs",
+            fileName,
+            fileContent
+        );
+    }
+
+    private async void SaveOnPCZip()
+    {
+        var fileName = "quest_data.txt";
+        var fileContent = resourses.SaveZip();
         await JSRuntime.InvokeAsync<object>(
             "FileSaveAs",
             fileName,

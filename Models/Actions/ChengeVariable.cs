@@ -17,10 +17,13 @@ namespace editor.Models.Actions
 
         public Variable ReferenceValue { get; set;}
 
-        public IChengeVariableAction IntegerAction {get;}
-        public IChengeVariableAction FloatAction {get;}
-        public IChengeVariableAction BooleanAction {get;}
-        public IChengeVariableAction StringAction {get;}
+        public IChengeVariableAction IntegerAction { get; set; }
+
+        public IChengeVariableAction FloatAction { get; set; }
+
+        public IChengeVariableAction BooleanAction { get; set; }
+
+        public IChengeVariableAction StringAction { get; set; }
 
         [JsonIgnore]
         public string Name => "Изменение переменной";
@@ -30,9 +33,9 @@ namespace editor.Models.Actions
             return Name;
         }
 
-        public void Execute(QuestResourses resourses, Dialog currentDialog, Replica currentReplica, Answer currentAnswer)
+        public void Execute(QuestGame game)
         {
-            var variable = resourses.Variables.FirstOrDefault(v => v.Id == VariableId);
+            var variable = game.GetVariable(VariableId);
             if(variable != null){
                 IntegerAction.Execute(variable, ReferenceValue);
                 FloatAction.Execute(variable, ReferenceValue);

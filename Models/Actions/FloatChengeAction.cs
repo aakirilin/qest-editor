@@ -12,7 +12,18 @@ namespace editor.Models.Actions
         };
 
         public void Execute(Variable variable, Variable referenceValue){
-
+            switch (Operation)
+            {
+                case ChengeVariableOperations.Add:
+                    variable.FValue += referenceValue.FValue;
+                    break;
+                case ChengeVariableOperations.Sub:
+                    variable.FValue -= referenceValue.FValue;
+                    break;
+                case ChengeVariableOperations.Set:
+                    variable.FValue = referenceValue.FValue;
+                    break;
+            }
         }
     }
 }

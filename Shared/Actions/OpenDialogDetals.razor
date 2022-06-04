@@ -1,0 +1,29 @@
+﻿@inject QuestResourses resourses
+
+@if(Action != null){
+    <div>
+        <p>@Action.Description()</p>
+        <p>
+            <span>Диалог</span>
+            <EnumSelect Hepler="@DialogSelectHelper" OnSelectOption="OnSelectDialog" />
+        </p>
+    </div>
+}
+
+
+@code {
+
+    private ISelectHelper dialogSelectHelper;
+    private ISelectHelper DialogSelectHelper => dialogSelectHelper ?? (
+        dialogSelectHelper =  new DialogHelper( resourses.Dialogs, Action)
+    );
+
+    private OpenDialog Action => CommonAction as OpenDialog;
+
+    [Parameter]
+    public IAction CommonAction { get; set; }
+
+    private void OnSelectDialog(){
+        Console.WriteLine("OnSelectDialog");
+    }
+}

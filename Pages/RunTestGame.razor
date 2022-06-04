@@ -1,13 +1,50 @@
-@page "/runtestgame"
-@inject QuestResourses resourses
+@page "/runtestgame/{Typegame}"
+@layout GameLayout
+
+@inject HttpClient Http
+@inject QuestResourses editResourses
+
+@if(Typegame.Equals("dev"))
+{
+    <NavMenu />
+}
 
 <div class="d-flex vh-90">
-    @if(started){
+    @if(started)
+    {
+        <div style="max-width: 600px;width: 100%;" class="alert m-auto" role="alert">
+            <div class="card" >
 
+                <div class="card-header">
+                    <h6 class="card-subtitle mb-2 text-muted">@game.CurentDialog.Title</h6>
+                </div>
+
+                 <div class="card-body">
+                    @foreach (var line in game.CurentReplica.Text.Split($"{Environment.NewLine}"))
+                    {
+                        <p class="text-justify">@line</p>
+                    }
+                 </div>
+
+                 <div class="card-footer">
+                    @foreach (var ansver in game.CurentReplica.VisibleAnswers(game))
+                    {
+                        <div class="mb-1">
+                            <button class="btn btn-secondary" @onclick="()=>
+                            {
+                                ansver.OnClick(game);
+                            }">@ansver.Text</button>
+                        </div>
+                    }
+                 </div>
+
+            </div>
+        </div>
     }
-    else{
+    else
+    {
         <div class="alert alert-success m-auto" role="alert">
-            <h4 class="alert-heading">Запуск тестирования</h4>
+            <h4 class="alert-heading">Начать игру</h4>
             <hr>
             <button class="btn btn-success" @onclick=@StartGame>Запустить</button>
         </div>
@@ -17,9 +54,38 @@
 
 @code
 {
+    private bool menu { get; set; } = true;
+    private bool loading { get; set; }
     private bool started {get; set;}
 
-    private void StartGame(object sender){
+
+    private QuestGame game;
+    private QuestProgress progress;
+    private QuestResourses resourses;
+
+    [Parameter]
+    public string Typegame { get; set; }
+
+    private async void StartGame(object sender){
+
+        if (Typegame.Equals("load"))
+        {
+            resourses = new QuestResourses();
+            var loadedData = await Http.GetFromJsonAsync<QuestResourses>(
+                "./sample-data/example_quest_data.json", 
+                JsonSerializerHelper.JsonSerializerOptions);
+
+            resourses.CopyFrom(loadedData);
+        }
+        else
+        {
+            resourses = editResourses;
+        }
+        //loading = true;
+        
+
+        progress = new QuestProgress();
+        game = new QuestGame(resourses, progress);
         started = true;
     }
 }
