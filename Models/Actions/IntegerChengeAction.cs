@@ -11,8 +11,6 @@ namespace editor.Models.Actions
             ChengeVariableOperations.Set
         };
 
-       
-
         public void Execute(Variable variable, Variable referenceValue){
 
             switch (Operation)

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace editor.Models
 {
-
     public class Variable : IObgect, IWithImage
     {
         public Guid Id { get; set; }

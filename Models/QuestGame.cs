@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using editor.Models.Actions;
 
 namespace editor.Models
 {
     public class QuestGame
     {
-
-
         public Guid CurentDialogId => progress.CurentDialogId;
         public Replica CurentReplica { get; set; }
         public Dialog curentDialog;
@@ -58,6 +57,18 @@ namespace editor.Models
         public Dialog StartDialog()
         {
             return resourses.Dialogs.FirstOrDefault(d => d.Type == DialogTypes.start);
+        }
+
+        internal void AddJournalRecord(AddJournalRecord addJournalRecord)
+        {
+            var journalProgress = progress.JournalRecords
+                .FirstOrDefault(r => r.Id == addJournalRecord.JournalRecordId);
+            if (journalProgress == null)
+            {
+                journalProgress = new JournalProgress(addJournalRecord.JournalRecordId);
+                progress.JournalRecords.Add(journalProgress);
+            }
+            journalProgress.Records.Add(addJournalRecord.Text);
         }
 
         public Replica MenuReplica()

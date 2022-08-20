@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 
 namespace editor.Models.Conditions
 {
-    
     public class VariableCondition : ICondition, IVariableRefenece
     {
         [JsonIgnore]

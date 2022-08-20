@@ -7,7 +7,7 @@ using editor.Models.Actions;
 
 namespace editor.Models
 {
-    public class IInterfaceConverter : JsonConverterFactory
+    public class IInterfaceConverterFactory : JsonConverterFactory
     {
         private readonly JsonConverter[] convertors = {
             new IInterfaceConverter<ICondition>(),

@@ -3,7 +3,6 @@ using System;
 
 namespace editor.Models.Conditions
 {
-
     public class VariableBooleanComparer : VariableValueComparer<bool>
     {
         [JsonIgnore]

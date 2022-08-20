@@ -9,37 +9,49 @@
     <NavMenu />
 }
 
-<div class="d-flex vh-90">
+<div class="d-flex">
     @if(started)
     {
-        <div style="max-width: 600px;width: 100%;" class="alert m-auto" role="alert">
-            <div class="card" >
-
-                <div class="card-header">
-                    <h6 class="card-subtitle mb-2 text-muted">@game.CurentDialog.Title</h6>
-                </div>
-
-                 <div class="card-body">
-                    @foreach (var line in game.CurentReplica.Text.Split($"{Environment.NewLine}"))
-                    {
-                        <p class="text-justify">@line</p>
-                    }
-                 </div>
-
-                 <div class="card-footer">
-                    @foreach (var ansver in game.CurentReplica.VisibleAnswers(game))
-                    {
-                        <div class="mb-1">
-                            <button class="btn btn-secondary" @onclick="()=>
-                            {
-                                ansver.OnClick(game);
-                            }">@ansver.Text</button>
+       <div style="max-width: 700px;width: 100%;" class="alert m-auto" role="alert">
+            <div class="row flex-nowrap">
+                <div style="min-width:auto" class="card">
+                    <div class="card-header" style="height:100%">
+                        <div>
+                            <button class="btn btn-secondary">Задачи</button>
                         </div>
-                    }
-                 </div>
+                        <div>
+                            <button class="btn btn-secondary">Карта</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-100" >
 
-            </div>
-        </div>
+                    <div class="card-header">
+                        <h6 class="card-subtitle mb-2 text-muted">@game.CurentDialog.Title</h6>
+                    </div>
+
+                        <div class="card-body">
+                        @foreach (var line in game.CurentReplica.Text.Split($"{Environment.NewLine}"))
+                        {
+                            <p class="text-justify">@line</p>
+                        }
+                        </div>
+
+                        <div class="card-footer">
+                        @foreach (var ansver in game.CurentReplica.VisibleAnswers(game))
+                        {
+                            <div class="mb-1">
+                                <button class="btn btn-secondary" @onclick="()=>
+                                {
+                                    ansver.OnClick(game);
+                                }">@ansver.Text</button>
+                            </div>
+                        }
+                        </div>
+                </div>
+            </div> 
+       </div>
+
     }
     else
     {
@@ -68,6 +80,8 @@
 
     private async void StartGame(object sender){
 
+        loading = true;
+
         if (Typegame.Equals("load"))
         {
             resourses = new QuestResourses();
@@ -81,11 +95,12 @@
         {
             resourses = editResourses;
         }
-        //loading = true;
-        
+        loading = false;
 
         progress = new QuestProgress();
         game = new QuestGame(resourses, progress);
         started = true;
     }
+
+
 }

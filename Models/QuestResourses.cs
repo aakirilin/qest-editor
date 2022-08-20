@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text.Json;
 using System.Text;
 using System;
 using System.Collections.Concurrent;
@@ -11,31 +10,11 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 using System.IO;
 using System.ComponentModel;
 using System.IO.Compression;
-using System.Diagnostics.CodeAnalysis;
 
 namespace editor.Models
 {
-    public static class JsonSerializerHelper
-    {
-        public static JsonSerializerOptions JsonSerializerOptions
-        {
-            get
-            {
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                };
-                options.Converters.Add(new IInterfaceConverter());
-
-                return options;
-            }
-        }
-
-    }
-
     public class QuestResourses
     {
-
         public List<Variable> Variables { get; set; }
         public List<Dialog> Dialogs { get; set; }
         public List<Image> Images { get; set; }
@@ -161,79 +140,6 @@ namespace editor.Models
         internal void SetDialogState(Dialog dialog, Guid selectReplicaId)
         {
             throw new NotImplementedException();
-        }
-    }
-
-    public class DialogProgress
-    {
-        public Guid DialogId {get; set;}
-        public Guid CurrentReplica{get; set;}
-
-        public DialogProgress(Guid id)
-        {
-            DialogId = id;
-        }
-    }
-
-    public class JournalProgress
-    {
-        public Guid Id {get; set;}
-        public List<JournalRecordProgress> Records {get; set;}
-
-        public JournalProgress(Guid id)
-        {
-            Id = id;
-            Records = new List<JournalRecordProgress>();
-        }
-    }
-
-    public class JournalRecordProgress
-    {
-        public Guid DialogId {get; set;}
-        public Guid ReplicaId {get; set;}
-        public Guid AnswerId {get; set;}
-    }
-
-    public class QuestProgress
-    {
-        public Guid CurentDialogId { get; set; }
-        public List<Variable> Variables { get; set; }
-        public List<DialogProgress> Dialogs { get; set; }
-        public List<JournalProgress> JournalRecords { get; set; }
-
-        public QuestProgress()
-        {
-            Initialize();
-        }
-
-        public void Initialize(){
-            Variables = new List<Variable>();
-            Dialogs = new List<DialogProgress>();
-            JournalRecords = new List<JournalProgress>();
-        }
-
-        public static QuestProgress FromFile(string json)
-        {
-            return JsonSerializer.Deserialize<QuestProgress>(json, JsonSerializerHelper.JsonSerializerOptions);
-        }
-
-        public string Serialize()
-        {
-            return  JsonSerializer.Serialize(this, JsonSerializerHelper.JsonSerializerOptions);
-        }
-    }
-
-
-    public class VariablesIdComparer : IEqualityComparer<Variable>
-    {
-        public bool Equals(Variable x, Variable y)
-        {
-            return x.Id == y.Id;
-        }
-
-        public int GetHashCode([DisallowNull] Variable obj)
-        {
-            return obj.Id.GetHashCode();
         }
     }
 }

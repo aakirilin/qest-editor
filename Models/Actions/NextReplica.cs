@@ -1,17 +1,17 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.Json.Serialization;
 using editor.Models.Conditions;
 
 namespace editor.Models.Actions
 {
-    public class SetDialogState : IAction, IDialogState
+    public class NextReplica : IAction, IDialogState
     {
-        public Guid DialogId {get; set;}
-        public Guid SelectReplicaId {get; set;}
+        public Guid DialogId { get; set; }
+        public Guid SelectReplicaId { get; set; }
 
         [JsonIgnore]
-        public string Name => "Изменение состояния диалога";
+        public string Name => "Переключить реплику без сохранения";
 
         public string Description()
         {
@@ -21,9 +21,9 @@ namespace editor.Models.Actions
         public void Execute(QuestGame game)
         {
             var dialog = game?.Dialogs?.FirstOrDefault(d => d.Id == DialogId);
-            if(dialog != null)
+            if (dialog != null)
             {
-                game.SetDialogState(dialog, SelectReplicaId);
+                game.NextReplica(dialog, SelectReplicaId);
             }
         }
     }

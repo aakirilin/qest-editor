@@ -2,6 +2,7 @@
 @inject QuestResourses resourses
 @inject IJSRuntime JSRuntime
 @inject HttpClient Http
+@inject NavigationManager navigationManager
 
 <div class="d-flex flex-column col-4">
     <button class="btn btn-primary p-1 m-2" @onclick=@New>
@@ -38,7 +39,7 @@
         var loadedData = await Http.GetFromJsonAsync<QuestResourses>(
             "./sample-data/example_quest_data.json", 
             JsonSerializerHelper.JsonSerializerOptions);
-            
+
         resourses.CopyFrom(loadedData);
     }
 
@@ -78,5 +79,23 @@
             fileName,
             fileContent
         );
+    }
+
+    string GetQueryParm(string parmName)
+    {
+        var uriBuilder = new UriBuilder(navigationManager.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        return q[parmName] ?? "";
+    }
+
+
+    protected override async Task OnInitializedAsync() {
+
+        var startGameParam = GetQueryParm("startGame");
+        bool startGameFlag = false;
+        if (bool.TryParse(startGameParam, out startGameFlag) && startGameFlag)
+        {
+            navigationManager.NavigateTo("runtestgame/load");
+        }
     }
 }
