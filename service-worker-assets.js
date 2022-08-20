@@ -57,7 +57,7 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-3wopGudc8IOw53F2cQc3u9OKmnD\/SMug1b3byG+xKuw=",
+      "hash": "sha256-mAyfxZMzX6Ud2RTDnhI1FAOh0tKTlu+N75yvVX5mrDg=",
       "url": "index.html"
     },
     {
@@ -189,7 +189,7 @@
       "url": "_framework\/System.Text.Json.dll"
     },
     {
-      "hash": "sha256-GKdbodkAIE1kKMJbidNrBacJbApJvFQ9NKv5I2fvMcs=",
+      "hash": "sha256-kMAe2YsOMPiPiMnjFcg2hbIDfcyOe27KVpezzbUL7vM=",
       "url": "_framework\/editor.dll"
     },
     {
@@ -209,7 +209,7 @@
       "url": "_framework\/System.Collections.NonGeneric.dll"
     },
     {
-      "hash": "sha256-WfOVxLHwXJ+RmsFk8+4XGmOn1wA0OxAfUjPlJxKmjNg=",
+      "hash": "sha256-G2R6YN2m6ODTg0BEOzg2oPW5taXa4IqhYVaFP7N4M80=",
       "url": "_framework\/System.Collections.Specialized.dll"
     },
     {
@@ -305,7 +305,7 @@
       "url": "_framework\/System.Private.Runtime.InteropServices.JavaScript.dll"
     },
     {
-      "hash": "sha256-lJEsdXKzE3ZI4qrRh3139E6+z\/4XKN4KGyq2SGFjWYg=",
+      "hash": "sha256-sxj4rq25sQk1C+zJLGkaZhP6g1ULK9XV4+\/jXqcUKCA=",
       "url": "_framework\/System.Private.Uri.dll"
     },
     {
@@ -357,7 +357,7 @@
       "url": "_framework\/System.Runtime.Serialization.Primitives.dll"
     },
     {
-      "hash": "sha256-yQ\/QDvE1k94ROFul1ViRxsiK1THkN\/HjEIfxSRVMfrk=",
+      "hash": "sha256-OwkikH\/9BrZElnE2Z8f4wi4pVEeY6vN0fY1a9ZsCLcI=",
       "url": "_framework\/System.Runtime.dll"
     },
     {
@@ -389,6 +389,10 @@
       "url": "_framework\/System.Threading.dll"
     },
     {
+      "hash": "sha256-Vp4ptZRIlC0rtmaw6wwqlB1K6xr6\/K2xU9oz5d2WCwE=",
+      "url": "_framework\/System.Web.HttpUtility.dll"
+    },
+    {
       "hash": "sha256-\/X1GLT\/fztZwHSGwkc\/vYBFk1tHphk2yO9lmCxhgGzU=",
       "url": "_framework\/System.dll"
     },
@@ -397,11 +401,11 @@
       "url": "_framework\/netstandard.dll"
     },
     {
-      "hash": "sha256-qE6l\/boJMgODINc4\/fKQ3Pu+0\/Kk0OXPRar2sKrTGA8=",
+      "hash": "sha256-togGg7xWUK0fLcSTifWq1DY07wCogKSssLoL3YaHOnQ=",
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
-      "hash": "sha256-dg80K+cqofouY6bFFtXg5EuRXV0N8qgRBhm8ENFPTWM=",
+      "hash": "sha256-dwLMoflmKHaaB61l5wqCCwv1ttYeGQFjN4AvMmPFF6w=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -409,5 +413,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "2iKSex+D"
+  "version": "PZOSMmB4"
 };
